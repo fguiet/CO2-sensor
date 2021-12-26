@@ -33,13 +33,12 @@
 // bibliotheque adafruit neopixel
 #include <Adafruit_NeoPixel.h>
 
-
 #include <Wire.h>
 
 #include "SparkFun_SCD30_Arduino_Library.h" //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
 SCD30 airSensor;
 
-#define DEBUG 1
+#define DEBUG 0
 #define MAX_RETRY 50
 #define MQTT_SERVER "mqtt.guiet.lan"
 #define FIRMWARE_VERSION "1.0"
@@ -83,7 +82,7 @@ uint32_t Blue=ring.Color(0, 0, 255);
 uint32_t Red=ring.Color(255, 0, 0);
 uint32_t Green=ring.Color(0, 255, 0);
 uint32_t Yellow=ring.Color(255, 255, 0);
-uint32_t Orange=ring.Color(255, 128, 0);
+uint32_t Orange=ring.Color(255, 106, 0);
 uint32_t White=ring.Color(255, 255, 255);
 
 WiFiClient espClient;
@@ -255,7 +254,7 @@ void setup() {
     };      
   }
 
-  debug_message("CO2 Sensor Ready...", true);  
+  debug_message("CO2 Sensor Ready...", true); 
 }
 
 void loop() {
@@ -304,7 +303,10 @@ void loop() {
     }
 
     if (co2 >= 2000) {
-      fullRingBlink(Red, 3, 250);
+      co2Low = true;
+      co2Medium = true;
+      co2High = true;
+      fullRingBlink(Red, 3, 250);      
     } 
 
     float temp = airSensor.getTemperature();
